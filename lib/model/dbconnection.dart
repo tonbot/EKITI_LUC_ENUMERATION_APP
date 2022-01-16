@@ -174,7 +174,7 @@ class dbconnection {
                             ..badCertificateCallback =
                                 ((X509Certificate cert, String host, int port) => trustSelfSigned);
                           IOClient ioClient = new IOClient(httpClient);
-                          var url = Uri.parse('https://www.luc.ekitistaterevenue.com/api/user_login_api.php');
+                          var url = Uri.parse('https://www.luc.com/api/user_login_api.php');
                           final response = await ioClient.post(url,
                               // headers: {
                               //   HttpHeaders.contentTypeHeader: 'application/json',
@@ -188,7 +188,7 @@ class dbconnection {
                                               );
                           return response.body.trim();
 
-                // var url = Uri.parse('https://www.luc.ekitistaterevenue.com/api/user_login_api.php');
+                // var url = Uri.parse('https://www.luc.com/api/user_login_api.php');
                 // //sending data to the server for login confirmation
                 // var response = await http.post(
                 //   url,
@@ -246,12 +246,12 @@ class dbconnection {
                                        return true;
                                      };
                                    };
-                                    var response=await dio.post('https://luc.ekitistaterevenue.com/api/enumeration_api.php', data:formData);      
+                                    var response=await dio.post('https://luc.com/api/enumeration_api.php', data:formData);      
                           return (response.data.toString());
 
             //  var request = http.MultipartRequest(
             //   'POST',
-            //   Uri.parse('https://luc.ekitistaterevenue.com/api/enumeration_api.php', ));
+            //   Uri.parse('https://luc.com/api/enumeration_api.php', ));
             //   request.fields['title'] = title.toString();
             //   request.fields["first_name"] = firstName.toString();
             //   request.fields["middle_name"] = middleName.toString();
@@ -302,13 +302,13 @@ static sendDemandNoticeToApi(propertyId, imagePath, isInternetAccess) async{
 										   return true;
 										 };
 									   };
-										var response=await dio.post('https://luc.ekitistaterevenue.com/api/demand_notice_api.php', data:formData);      
+										var response=await dio.post('https://luc.com/api/demand_notice_api.php', data:formData);      
 										return (response.data.toString());
 
                 
   //  var request = http.MultipartRequest(
   //             'POST',
-  //             Uri.parse('https://luc.ekitistaterevenue.com/api/demand_notice_api.php', ));
+  //             Uri.parse('https://luc.com/api/demand_notice_api.php', ));
   //             request.fields["property_id"] = propertyId.toString();
   //             request.files.add(await http.MultipartFile.fromPath('image', imagePath));
   //             //send to the api
