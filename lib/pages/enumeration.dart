@@ -8,8 +8,9 @@ import 'package:ekiti_luc/model/util.dart';
 import 'package:ekiti_luc/model/dbconnection.dart';
 import 'package:ekiti_luc/model/enumField.dart';
 import 'package:ekiti_luc/pages/decoration/decoration.dart';
-import 'package:path/path.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:get_ip_address/get_ip_address.dart';
 
 // ignore_for_file: prefer_const_constructors, camel_case_types, prefer_const_literals_to_create_immutables, non_constant_identifier_names, unused_field
 
@@ -24,6 +25,7 @@ class enumeration extends StatefulWidget {
 class _enumerationState extends State<enumeration> {
        // Variable Declaration
       final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+      bool sendingVisibility=false;
       
   @override
   Widget build(BuildContext context) {
@@ -31,11 +33,10 @@ class _enumerationState extends State<enumeration> {
         
       //appBar
        appBar:AppBar(
-         title: Center(child: Text("Eumeration Details",
+         title: Center(child: Text("Enumeration Details",
          style:TextStyle(
            fontSize:15,
-         )
-         
+         ),
          )),
          backgroundColor:Colors.blueGrey,
           ),
@@ -47,9 +48,7 @@ class _enumerationState extends State<enumeration> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(30,20,20,20),
               child: ListView(
-                
                 children:<Widget>[  //list view of children starts here
-
                     //login text
                      SizedBox(
                         child:Text(
@@ -300,10 +299,18 @@ class _enumerationState extends State<enumeration> {
                                  TextFormField( //user name text field
                                       controller:enumField.propertyId_Controller,
                                       validator:(value) {
-                                        if(value=="" || value==null){
-                                          return "Property Id can not be empty";
+                                        if(value=="" || value==null || value.length != 7){
+                                          return "Property Id cannot be less or greater than 7digits";
                                         }else{
-                                          return null;
+                                           /// check if the string contains only numbers
+                                            RegExp _numeric = RegExp(r'^-?[0-9]+$');                                         
+                                            bool check_numeric = _numeric.hasMatch(value);
+                                           if (check_numeric){
+                                               return null;
+                                           }else{
+                                              return "Property Id can only be number";
+                                           }
+                                         
                                         }
                                       },
                                       style: TextStyle(color:Colors.black, fontSize: 17 ),
@@ -475,6 +482,7 @@ class _enumerationState extends State<enumeration> {
                                       SizedBox( height:12, ),
                  
                                  TextFormField( //user name text field
+                                      enabled:false,
                                       controller:enumField.category_Controller,
                                       style: TextStyle(color:Colors.black, fontSize: 17 ),
                                       decoration:TextFieldDecoration.copyWith(hintText:"A"),
@@ -695,6 +703,27 @@ class _enumerationState extends State<enumeration> {
                                               Lga_selectedValue =  data.toString();
 
                                           }); 
+                                        if(data.toString()=="Ado Ekiti" || data.toString()=="Ikere-Ekiti" ){
+                                            setState(() {
+                                              enumField.category_Controller.text = "A";
+                                          });
+                                        }
+                                        if(data.toString()=="Ekiti East" || data.toString()=="Ekiti West" || data.toString()=="Ekiti South West" || 
+                                            data.toString()=="Ido/Osi" || data.toString()=="Irepodun/ifelodun" || data.toString()=="Oye"||
+                                            data.toString()=="Ikole" || data.toString()=="Ijero"  ){
+                                        
+                                            setState(() {
+                                              enumField.category_Controller.text = "B";
+                                          });
+                                        }
+                                       if(data.toString()=="Gbonyin" || data.toString()=="Efon" || data.toString()=="Emure" || 
+                                            data.toString()=="Ilejemeje" || data.toString()=="Ise/Orun" || data.toString()=="Moba"){
+                                           
+                                            setState(() {
+                                              enumField.category_Controller.text = "C";
+                                          });
+                                        }
+
                                           
                                    },
                                   
@@ -761,7 +790,7 @@ class _enumerationState extends State<enumeration> {
                                          setState((){
                                            image = images;
                                          });
-                                        
+                                     //   Navigator.pushReplacementNamed(context, "/dashboards"); 
                                        },
                                        child: Container(
                                          alignment: Alignment.centerLeft,
@@ -799,7 +828,7 @@ class _enumerationState extends State<enumeration> {
  /*****************************************BUTTON SUBMIT************************************************** */
                                 GestureDetector( //on tap of submit
                                         onTap: () async{ 
-                                     
+                                         
                                           //get userID
                                           userId=await util.getUserId();
                                           //print(userId);
@@ -817,21 +846,32 @@ class _enumerationState extends State<enumeration> {
                                                    // check internet connection. the function returns "true" if there is internet
                                                    // but returns false if there is no internet access
                                                     bool _isInternetAccess = await util.check_Internet_Access();
-                                                    if (_isInternetAccess) //have internet access
-                                                          {            
+                  
                                                              image_Controller = images;
-                                                             var macAddress= "";
-                                                          
+
+                                                             //Get Ip Address
+                                                            var ipAddress = IpAddress();
+                                                             var macAddress =_isInternetAccess? await ipAddress.getIpAddress(): "";
+                                                            
                                                              //making dconnection                                                 
-                                                                Database dbconnect= await dbconnection.databaseConnect;
+                                                              Database dbconnect= await dbconnection.databaseConnect;
                                                              // print(dbconnect);
                                                                 
                                                                //bool checkK= await dbconnection.dbExist();
                                                               // print(checkK);
 
-                                                              if(dbconnect !=null ){
+                                                              // ignore: unnecessary_null_comparison
+                                                              if(dbconnect != null )
+                                                              {
+                                                                      setState(() {
+                                                                    
+                                                                           sendingVisibility=true;
+                                                                       });
+                                                                      var position= await Geolocator.getCurrentPosition();
+                                                                      var longitude_Controller= position.longitude;
+                                                                      var latitude_Controller=  position.latitude;
+                                                                      
                                                                     var response = await dbconnection.sendData(
-                                                                        
                                                                               enumField.title_Controller.text.toString(),
                                                                               enumField.firstName_Controller.text.toString(),
                                                                               enumField.middleName_Controller.text.toString(),
@@ -860,17 +900,40 @@ class _enumerationState extends State<enumeration> {
                                                                               userId,
                                                                               dbconnect,
                                                                               _isInternetAccess,
-                                                                              macAddress,   
-                                                                    );
+                                                                              macAddress, ); 
+                                                                    
                                                                     print(response);
-                                                                  await dbconnection.checkDb(dbconnect);
-                                                             }//end of if dbconnection is not null
-                                                          }
-                                                    else{ //no internet access    
-                                                              //display snack bar
-                                                              String message="Oops, looks like there's no internet connection";
-                                                              util.DisplaySnackBar(context, message);
-                                                          }
+                                                                    if(response=="success" || response=="Property saved"){
+                                                                      setState(() {
+                                                                         sendingVisibility=false;
+                                                                      });
+                                                                     
+                                                                      String message="Property Saved";
+                                                                      String title="Success";
+                                                                      util.DisplayAlertDialog(context, message, title);
+                                                                    }else if( response=="empty"){
+                                                                      setState(() {
+                                                                         sendingVisibility=false;
+                                                                      });
+                                                                     
+                                                                      String message="Property type, Building purpose, Lga and Zone cant be empty";
+                                                                      String title="CANT SAVE PROPERTY";
+                                                                      util.DisplayAlertDialog(context, message, title);
+
+                                                                    }
+                                                                    else{
+                                                                      setState(() {
+                                                                         sendingVisibility=false;
+                                                                      });
+                                                                      String message="Property Id already exist";
+                                                                      String title="CANT SAVE PROPERTY";
+                                                                      util.DisplayAlertDialog(context, message, title);
+                                                                    }
+
+                                                                    //await dbconnection.checkDb(dbconnect);
+                                                               }//end of if dbconnection is not null
+                                                          
+                                                  
                                               }  
                                           else{
                                                 print("false");
@@ -878,12 +941,28 @@ class _enumerationState extends State<enumeration> {
                                         },
                                   child: Container(   //sign in Contain
                                      padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                                     alignment:Alignment.center,
-                                     child: Text(
-                                       "SUBMIT",
-                                       style: TextStyle(
-                                       color:SubmitButtonTextColor,
-                                     ), 
+                                     child: Row(
+                                       mainAxisAlignment:MainAxisAlignment.center,
+                                       children: [
+                                         Text(
+                                           "SUBMIT",
+                                           style: TextStyle(
+                                           color:SubmitButtonTextColor,
+                                         ), 
+                                         ),
+                                         SizedBox(width:10),
+                                         Visibility(
+                                           visible:sendingVisibility?true: false,
+                                           child: SizedBox(
+                                             height:20,
+                                             width:20,
+                                             child: CircularProgressIndicator(
+                                               color:Colors.white,
+                                               strokeWidth:2.0,
+                                             ),
+                                           ),
+                                         ),
+                                       ],
                                      ),
                                      color: SubmitButtonBgColor,
                                   ),

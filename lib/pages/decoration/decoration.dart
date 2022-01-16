@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
        Color TextBorderFocusColor= Colors.blueGrey;
        Color TextBorderEnabledColor= Colors.blueGrey;
 
-       Color SelectBoxButtonFillColor= Colors.green;
+       Color SelectBoxButtonFillColor= Colors.blueGrey;
      
        double TextBorderwidth         = 2;
        double TextBorderErrorWidth    = 2;
@@ -19,8 +19,17 @@ import 'package:flutter/material.dart';
        Color SubmitButtonBgColor = Colors.red;
        Color SubmitButtonTextColor = Colors.white;
         //  color declaration ends here
+
+        Color yellow=Colors.yellow;
+        Color black=Colors.black;
+        Color green=Colors.green;
+        Color blueGrey= Colors.blueGrey;
+        Color white= Colors.white;
+      
+
        // Variable Declaration
-     
+
+              
 var dropDownDecoration = InputDecoration(
                                             hintText:"30km",
                                             hintStyle: TextStyle(color:Colors.black26, fontSize:18),

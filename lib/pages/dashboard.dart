@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, prefer_const_literals_to_create_immutables, camel_case_types
 
 import 'package:flutter/material.dart';
 import 'package:ekiti_luc/model/util.dart';
@@ -38,7 +38,6 @@ class _dashboardState extends State<dashboard> {
        
        // Variable Declaration
      
-      final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
       TextEditingController      usernameController    = TextEditingController();
       TextEditingController      passwordController = TextEditingController();
        var userId; 
@@ -52,7 +51,8 @@ class _dashboardState extends State<dashboard> {
            });
         }
        
-        void initState() {
+        @override
+  void initState() {
           super.initState();
             getUserId();
         }
@@ -110,37 +110,35 @@ class _dashboardState extends State<dashboard> {
                               child:Icon(Icons.home, size:100, color:Colors.orange),
                             ),
                           
-                             Container(
-                               child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.center,
-                                 children: [
+                             Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
                     
-                                   Container(
-                                     width:150,
-                                     alignment:Alignment.centerLeft,
-                                     child: Text("Start Enumeration",
-                                     style:TextStyle(
-                                       color:Colors.white,
-                                       fontWeight:FontWeight.bold,
-                                       fontSize:26,
-                                       fontFamily:"roboto"
-                                     )
-                                     ),
+                                 Container(
+                                   width:150,
+                                   alignment:Alignment.centerLeft,
+                                   child: Text("Start Enumeration",
+                                   style:TextStyle(
+                                     color:Colors.white,
+                                     fontWeight:FontWeight.bold,
+                                     fontSize:26,
+                                     fontFamily:"roboto"
+                                   )
                                    ),
-                                   Container(
-                                     alignment:Alignment.centerLeft,
-                                     child: Text("Please fill out your Property details her!",
-                                      style:TextStyle(
-                                       color:Colors.orange,
-                                       fontWeight:FontWeight.bold,
-                                       fontSize:14,
-                                     )
-                                     ),
-                                     width:150
+                                 ),
+                                 Container(
+                                   alignment:Alignment.centerLeft,
+                                   child: Text("Please fill out your Property details her!",
+                                    style:TextStyle(
+                                     color:Colors.orange,
+                                     fontWeight:FontWeight.bold,
+                                     fontSize:14,
+                                   )
                                    ),
-                                
-                                 ],
-                               ),
+                                   width:150
+                                 ),
+                              
+                               ],
                              ),
                             
                           ],
@@ -153,8 +151,7 @@ class _dashboardState extends State<dashboard> {
                     //second container demand notice
                        GestureDetector(
                       onTap:(){
-                         util.DisplayProgressIndicator(context);  
-                           print(userId.toString());                       
+                         util.DisplayProgressIndicator(context);                        
                       },
                       child: Container( //Demand Notice
                         decoration:BoxDecoration(borderRadius: BorderRadius.circular(25.0), 
@@ -167,37 +164,35 @@ class _dashboardState extends State<dashboard> {
                               child:Icon(Icons.photo_album_outlined, size:100, color:Colors.green[200]),
                             ),
                           
-                             Container(
-                               child: Column(
-                                 mainAxisAlignment: MainAxisAlignment.center,
-                                 children: [
+                             Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
                     
-                                   Container(
-                                     width:150,
-                                     alignment:Alignment.centerLeft,
-                                     child: Text("Demand Notice",
-                                     style:TextStyle(
-                                       color:Colors.white,
-                                       fontWeight:FontWeight.bold,
-                                       fontSize:26,
-                                       fontFamily:"roboto"
-                                     )
-                                     ),
+                                 Container(
+                                   width:150,
+                                   alignment:Alignment.centerLeft,
+                                   child: Text("Demand Notice",
+                                   style:TextStyle(
+                                     color:Colors.white,
+                                     fontWeight:FontWeight.bold,
+                                     fontSize:26,
+                                     fontFamily:"roboto"
+                                   )
                                    ),
-                                   Container(
-                                     alignment:Alignment.centerLeft,
-                                     child: Text("Send us a photo of your Property here!",
-                                      style:TextStyle(
-                                       color:Colors.green[200],
-                                       fontWeight:FontWeight.bold,
-                                       fontSize:14,
-                                     )
-                                     ),
-                                     width:150
+                                 ),
+                                 Container(
+                                   alignment:Alignment.centerLeft,
+                                   child: Text("Send us a photo of your Property here!",
+                                    style:TextStyle(
+                                     color:Colors.green[200],
+                                     fontWeight:FontWeight.bold,
+                                     fontSize:14,
+                                   )
                                    ),
-                                
-                                 ],
-                               ),
+                                   width:150
+                                 ),
+                              
+                               ],
                              ),
                             
                           ],

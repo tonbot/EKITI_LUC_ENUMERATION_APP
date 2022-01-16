@@ -5,7 +5,7 @@ import 'dart:io';
 
 import 'package:dialogs/dialogs/message_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,7 +15,7 @@ class util{
 
    
 
-/************************************************************************************* */
+/// *********************************************************************************** */
  //this function check internet Access of the device
   static Future<bool> check_Internet_Access() async {
      
@@ -32,7 +32,7 @@ class util{
 
   }
 /************************************************************************************* */
-/************************************************************************************* */
+/// *********************************************************************************** */
  //this function display snakBar
   static DisplaySnackBar(context, message) {
      
@@ -49,14 +49,14 @@ class util{
 
   }
 /************************************************************************************* */
-/************************************************************************************* */
-  static DisplayAlertDialog(context) {
+/// *********************************************************************************** */
+  static DisplayAlertDialog(context,message,title) {
           MessageDialog messageDialog = MessageDialog(
                       dialogBackgroundColor: Colors.white,
                       buttonOkColor: Colors.red,
-                      title: 'ERROR',
+                      title: title,
                       titleColor: Colors.black,
-                      message: 'USER VERIFICATION FAILED',
+                      message: message,
                       messageColor: Colors.black,
                       buttonOkText: 'Ok',
                       dialogRadius: 15.0,
@@ -67,7 +67,7 @@ class util{
                   return messageDialog;
 
   }
-/************************************************************************************* */
+/// *********************************************************************************** */
  static DisplayProgressIndicator(context) {
             return showDialog(
                   context: context,
@@ -83,11 +83,11 @@ class util{
 
   }
 
-/************************************************************************************* */
+/// *********************************************************************************** */
 static Future pickImages() async{
   
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera, imageQuality: 6);
     if (image != null ){
        final  directory = await getApplicationDocumentsDirectory();
        final  image_name = basename(image.path);
@@ -99,7 +99,6 @@ static Future pickImages() async{
     }
 
  }
-
 
 /// ***************************set UserId starts here********************************************************************* */
 
@@ -122,6 +121,37 @@ static Future pickImages() async{
       var  userId = prefs.getString('userId').toString();
         return userId;
   }
-/*****************************get UserId ends here********************************************************************* */
+/// ***************************get UserId ends here********************************************************************* */
+ static determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission; 
+  //check if location service is enabled
+  //if not return a message
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) 
+      {
+       
+        return ('Location services are disabled.');
+        
+      }
+     //request for permission if permissiion==denied
+  permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) 
+        {
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied) 
+            { 
+              return Future.error('Permission denied');
+            }
+        }
+ 
+   //At this point permission is granted
+     await Geolocator.getCurrentPosition();
+     return ("Permission granted");
+    
 
 }
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -24,6 +24,8 @@ class enumField {
     static  TextEditingController   category_Controller          = TextEditingController();
     static  TextEditingController   areaClass_Controller         = TextEditingController();
     static  TextEditingController   landmark_Controller          = TextEditingController();
+    static  TextEditingController   demandpropertyId_Controller          = TextEditingController();
+    
 
 
      //property type value list
@@ -45,8 +47,8 @@ class enumField {
     //LGA LIST
      static var getLga= [
             "Ado Ekiti",
-            "Ikere Ekiti",
-            "Ekiti East"
+            "Ikere-Ekiti",
+            "Ekiti East",
             "Ekiti South West",
             "Ekiti West",
             "Ido/Osi",
@@ -62,7 +64,7 @@ class enumField {
     ];
     //BUILDING PURPOSE LIST
 
-/***************************** Building Type starts here********************************************************************* */
+/// *************************** Building Type starts here********************************************************************* */
 
          static List<String>getBuildingType(PropertyType_Selected){
      List<String> BuildingType;
@@ -74,20 +76,16 @@ class enumField {
                         "Face me I face You",	 
                    ];
                 }
-                  break;
                 case "Hotel":{       //hotel
                       return BuildingType= [];
                      
                 }
-                  break;
                 case "Office Complex/Business Premises":{   // office complex
                       return BuildingType= [];
                 }
-                 break;
                case "Schools":{   //schools
                       return BuildingType= [];
                 }
-
                 default : {
                     return BuildingType= [];
                 }
@@ -96,7 +94,7 @@ class enumField {
       }
 /***************************** Building Type ends here********************************************************************* */
 
-/***************************** Building Purpose starts here********************************************************************* */
+/// *************************** Building Purpose starts here********************************************************************* */
 
          static List<String>getBuildingPurpose(PropertyType_Selected){
            List<String> BuildingPurpose;
@@ -108,16 +106,12 @@ class enumField {
                         "Owner Occupier",	 
                    ];
                 }
-                  break;
-
                 case "Hotel":{       //hotel
                       return BuildingPurpose= ["Business"]; 
                 }
-                  break;
                 case "Office Complex/Business Premises":{   // office complex
                       return BuildingPurpose= ["Business"];
                 }
-                 break;
                case "Schools":{   //schools
                       return BuildingPurpose= [
                         "Private Secondary School (A)",
@@ -126,7 +120,6 @@ class enumField {
                         "Private Primary School (B)",
                       ];
                 }
-
                 default : {
                     return BuildingPurpose= ["Business"];
                 }
@@ -134,7 +127,7 @@ class enumField {
      
       }
 /***************************** Building Purpose ends here********************************************************************* */
-/***************************** Zone starts here********************************************************************* */
+/// *************************** Zone starts here********************************************************************* */
 
          static List<String>getZone(PropertyType_Selected){
            List<String> Zone;
@@ -146,7 +139,6 @@ class enumField {
                         "LVZ",	 
                    ];
                 }
-                  break;
 
                 case "Hotel":{       //hotel
                       return Zone= [
@@ -155,7 +147,6 @@ class enumField {
                         "LVZ",
                       ]; 
                 }
-                  break;
                 case "Office Complex/Business Premises":{   // office complex
                       return Zone= [
                         "HVZ",
@@ -163,13 +154,11 @@ class enumField {
                         "LVZ",
                       ];
                 }
-                 break;
                case "Schools":{   //schools
                       return Zone= [
                         "EDU"
                       ];
                 }
-
                 default : {
                     return Zone= ["ENC"];
                 }
@@ -178,11 +167,9 @@ class enumField {
       }
 /***************************** Zone ends here********************************************************************* */
 
-
 }
      //these variables are used in enumeration.dart dropdownButton
-      var longitude_Controller="";
-      var latitude_Controller="";
+     
       var  PropertyType_selectedValue;
       var  Zone_selectedValue;
       var  Lga_selectedValue;
@@ -191,5 +178,8 @@ class enumField {
       var  images;
       var  image;
       var  userId;
+      var  demandimages;
+      var  demandimage;
+
       File? image_Controller;
 
